@@ -1,0 +1,4 @@
+pynput==1.7.6
+pygetwindow==0.0.9
+Pillow==9.5.0
+pywin32==306
