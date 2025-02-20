@@ -16,7 +16,7 @@ The Endpoint Agent is a lightweight monitoring tool designed to capture user act
 ## Installation
 ### Clone the Repository
 ```bash
-git clone <repository-url>
+git clone https://github.com/Umzi-1/orbivue-prototype
 cd monitoring_prototype/endpoint_agent
 ```
 
