@@ -51,20 +51,24 @@ class ActivityMonitor:
 
     def get_active_window(self):
         try:
-            return gw.getActiveWindow().title
+            active_window = gw.getActiveWindow()
+            if active_window:
+                return active_window.title
+            else:
+                return "No Active Window"
         except Exception as e:
             print(f"Window capture error: {e}")
             return "Unknown Window"
 
     def record_activity(self, data):
-        # Only check active window for significant events (keystrokes or clicks)
-        if data['type'] in ['keystroke', 'mouse_click']:
+        # Record the active window for specific events (keystroke, mouse_click, mouse_move)
+        if data['type'] in ['keystroke', 'mouse_click', 'mouse_move']:
             data['window'] = self.get_active_window()
         else:
-            data['window'] = None
+            data['window'] = "N/A"  # Placeholder for other events
 
         self.batch.append(data)
-        
+
         # Send batch if it reaches the batch size
         if len(self.batch) >= self.batch_size:
             self.send_batch()
@@ -81,6 +85,7 @@ class ActivityMonitor:
             else:
                 screenshot = None
 
+            # Prepare payload in the main thread
             payload = {
                 'activities': list(self.batch),  # Convert deque to list for JSON serialization
                 'screenshot': screenshot,
